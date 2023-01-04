@@ -1,6 +1,6 @@
 package smm.simpleMemo.config.handler;
 
-import smm.simpleMemo.exception.ErrorResult;
+import smm.simpleMemo.response.ErrorResult;
 import smm.simpleMemo.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
