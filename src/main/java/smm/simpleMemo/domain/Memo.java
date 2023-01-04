@@ -32,69 +32,55 @@ public class Memo extends BaseEntity {
 
     private LocalDateTime mod_date;
 
-    public Memo() {
+    protected Memo() {
     }
 
-    public Memo(User writer, String title) {
+    /**
+     * 새 메모 작성
+     * mod_date(변경날짜)의 경우 새 메모 작성 시에도 동일하게 변경 됨
+     * @param writer
+     * @param title
+     * @param mod_date
+     */
+    public Memo(User writer, String title, LocalDateTime mod_date) {
         this.writer = writer;
         this.title = title;
-    }
-
-    public Memo(User writer, String title, String text) {
-        this.writer = writer;
-        this.text = text;
-        this.title = title;
+        this.mod_date = mod_date;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public User getWriter() {
         return writer;
-    }
-
-    public void setWriter(User writer) {
-        this.writer = writer;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getText() {
         return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
     }
 
     public LocalDateTime getRead_date() {
         return read_date;
     }
 
-    public void setRead_date(LocalDateTime read_date) {
-        this.read_date = read_date;
-    }
-
     public LocalDateTime getMod_date() {
         return mod_date;
+    }
+
+    public void setRead_date(LocalDateTime read_date) {
+        this.read_date = read_date;
     }
 
     public void setMod_date(LocalDateTime mod_date) {
         this.mod_date = mod_date;
     }
 
-    public void copyMemoDto(String title, String text) {
+    public void updateMemo(String title, String text) {
         this.title = title;
         this.text = text;
     }

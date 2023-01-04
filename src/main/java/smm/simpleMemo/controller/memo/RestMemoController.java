@@ -26,10 +26,10 @@ public class RestMemoController {
 
     // 저장 후 원래 Memo는 TempMemo가 되어 response
     @ResponseBody
-    @PostMapping("memo/save")
-    public ResponseMemo<TempMemoDto> postMemoSave(@Valid @RequestBody MemoDto memoDto, Authentication authentication) {
+    @PostMapping("memo/update")
+    public ResponseMemo<TempMemoDto> postMemoUpdate(@Valid @RequestBody MemoDto memoDto, Authentication authentication) {
         int userId = ((UserDetail) authentication.getPrincipal()).getUser().getId();
-        TempMemoDto tempMemoDto = memoService.saveMemo(memoDto, userId);
+        TempMemoDto tempMemoDto = memoService.updateMemo(memoDto, userId);
 
         return new ResponseMemo<>(tempMemoDto);
     }

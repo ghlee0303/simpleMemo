@@ -44,18 +44,17 @@ public class MemoService {
         String parsedLocalDateTimeNow = localDateTimeNow.format(DateTimeFormatter.ofPattern("MM월 dd일 HH시"));
         String memoTitle = "새 메모 - " + parsedLocalDateTimeNow;
 
-        Memo memo = new Memo(writer, memoTitle);
-        memo.setMod_date(localDateTimeNow);
+        Memo memo = new Memo(writer, memoTitle, localDateTimeNow);
         memoDslResp.save(memo);
 
         return memo.getId();
     }
 
     @Transactional(isolation = Isolation.REPEATABLE_READ, rollbackFor = Exception.class)
-    public TempMemoDto saveMemo(MemoDto memoDto, int userId) {
+    public TempMemoDto updateMemo(MemoDto memoDto, int userId) {
         Memo memo = findMemo(memoDto.getId(), userId);
         TempMemoDto tempMemoDto = tempMemoService.saveTempMemo(memo);
-        memo.copyMemoDto(
+        memo.updateMemo(
                 memoDto.getTitle(),
                 memoDto.getText()
         );

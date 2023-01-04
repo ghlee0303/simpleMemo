@@ -44,7 +44,7 @@ async function mainMemoSetting() {
 /**
  * 작성한 html 저장
  */
-function saveMemoHtml() {
+function updateMemoHtml() {
     const memoUrl = "/memo/save";
     const memoTitle = document.querySelector("#memoTitle").value;
     const memoText = document.querySelector("#htmlEditor").value;
@@ -72,8 +72,7 @@ function saveMemoHtml() {
             return httpStatusHandler(res).catch(errorThrower);
         })
         .then(tempMemo => {
-            //console.log(tempMemo);
-            insertMemoList(tempMemo, "tempMemoList");
+            sidebar.insertSidebarMemoList(tempMemo, "tempMemoList");
             return tempMemo;
         })
         .then(res => { viewedMemoListSameTitleChange(memoTitle); })
@@ -85,12 +84,12 @@ function saveMemoHtml() {
  * 작성한 html 삭제 (del_date 추가)
  */
 function deleteMemoHtml() {
-    const serverUri = "http://localhost:8080/memo/delete?id=" + memoId;
+    const serverUri = "/memo/delete?id=" + memoId;
 
     fetch(serverUri)
         .then(res => {
                 alert("성공적으로 삭제 되었습니다.");
-                location.href = "http://localhost:8080/memo/list";
+                location.href = "/memo/list";
             }
         );
 }
@@ -100,7 +99,7 @@ function deleteMemoHtml() {
  * 이미지 파일 업로드
  */
 function imageUpload(file, editor) {
-    const serverUri = "http://localhost:8080/image/upload";
+    const serverUri = "/image/upload";
     let formData = new FormData();
     formData.append("image", file);
 
@@ -182,7 +181,7 @@ function changedSaveMemoHtml() {
         clearTimeout(changeTimerId);
     }
 
-    changeTimerId = setTimeout(saveMemoHtml, 2500);     // 2.5초 후 저장
+    changeTimerId = setTimeout(updateMemoHtml, 2500);     // 2.5초 후 저장
 }
 
 /**
@@ -196,14 +195,14 @@ function viewedMemoListSameTitleChange(viewedTitle) {
 }
 
 /**
- * 수동 자동 저장
+ * 수동 저장
  */
 function manualSaveMemoHtml() {
     if (changeTimerId) {
         clearTimeout(changeTimerId);
     }
 
-    saveMemoHtml();
+    updateMemoHtml();
 }
 
 /**
