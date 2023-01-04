@@ -1,4 +1,4 @@
-package smm.simpleMemo.exception;
+package smm.simpleMemo.response;
 
 import smm.simpleMemo.dto.BasicDto;
 
