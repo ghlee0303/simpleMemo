@@ -23,6 +23,7 @@ public class UserService {
 
     /**
      * 회원가입
+     * 나중에 고치자
      */
     public boolean join(UserDto userDto) {
         if (validateDuplicateMember(userDto.getEmail())) {
@@ -31,10 +32,9 @@ public class UserService {
 
         User user = new User(
                 userDto.getEmail(),
-                userDto.getPwd()
+                passwordEncoder.encode(userDto.getPwd())
         );
 
-        user.setPwd(passwordEncoder.encode(user.getPwd()));
         userDslResp.save(user);
 
         return true;
