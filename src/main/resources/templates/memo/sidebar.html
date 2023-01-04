@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<nav th:fragment="header" id="sidebar">
+  <div class="sidebar-header">
+    <h3>Simple Memo</h3>
+
+  </div>
+
+  <ul class="list-unstyled components">
+    <li>
+      <a href="/memo/list">메모 목록</a>
+    </li>
+    <li>
+      <a href="/memo/new">새 메모 작성</a>
+    </li>
+    <li>
+      <a href="#viewedMemoList" data-toggle="collapse" aria-expanded="false">열람한 메모</a>
+      <ul class="collapse list-unstyled" id="viewedMemoList">
+
+      </ul>
+    </li>
+    <li>
+      <a href="#tempMemoList" data-toggle="collapse" aria-expanded="false">이전 메모</a>
+      <ul class="collapse list-unstyled" id="tempMemoList">
+
+      </ul>
+    </li>
+    <li>
+      <a href="#">Github</a>
+    </li>
+  </ul>
+</nav>
+</body>
+</html>

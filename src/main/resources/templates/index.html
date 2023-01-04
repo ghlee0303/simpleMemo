@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+이메일 : <span th:text="${email}"></span><br>
+
+<button type="button" onclick="location.href='/memo/new' ">새 메모 작성</button>
+<button type="button" onclick="location.href='/memo/list' ">작성한 메모 목록</button>
+</body>
+</html>
