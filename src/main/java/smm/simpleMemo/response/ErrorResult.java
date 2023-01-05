@@ -4,7 +4,7 @@ import smm.simpleMemo.dto.BasicDto;
 
 import java.time.LocalDateTime;
 
-public class ErrorResult extends BasicDto {
+public class ErrorResult {
     private LocalDateTime errorTime;
     private String message;
     private int err_code;
@@ -12,14 +12,7 @@ public class ErrorResult extends BasicDto {
     public ErrorResult() {
     }
 
-    public ErrorResult(int status, String message) {
-        super.httpStatus = status;
-        this.message = message;
-        this.errorTime = LocalDateTime.now();
-    }
-
-    public ErrorResult(int status, String message, int err_code) {
-        super.httpStatus = status;
+    public ErrorResult(String message, int err_code) {
         this.message = message;
         this.err_code = err_code;
         this.errorTime = LocalDateTime.now();

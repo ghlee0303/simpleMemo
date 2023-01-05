@@ -11,6 +11,11 @@ public class ResponseMemo<T> {
         this.data = data;
     }
 
+    public ResponseMemo(int httpStatus, T data) {
+        this.httpStatus = httpStatus;
+        this.data = data;
+    }
+
     public int getHttpStatus() {
         return httpStatus;
     }
