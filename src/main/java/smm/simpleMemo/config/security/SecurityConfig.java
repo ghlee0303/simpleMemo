@@ -67,6 +67,11 @@ public class SecurityConfig  {
         return new LoginFailHandler();
     }
 
+    @Bean
+    public LoginSuccessHandler loginSuccessHandler() {
+        return new LoginSuccessHandler();
+    }
+
 
     public AuthenticationManager authenticationManager() throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
@@ -76,6 +81,7 @@ public class SecurityConfig  {
         JsonLoginFilter jsonLoginFilter = new JsonLoginFilter();
         jsonLoginFilter.setAuthenticationManager(authenticationManager);
         jsonLoginFilter.setAuthenticationFailureHandler(loginFailHandler());
+        jsonLoginFilter.setAuthenticationSuccessHandler(loginSuccessHandler());
 
         return jsonLoginFilter;
     }
