@@ -16,9 +16,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
-    @Autowired
-    private ModelMapper modelMapper;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private ObjectMapper objectMapper;
+
+    public LoginSuccessHandler(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {

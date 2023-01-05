@@ -1,5 +1,8 @@
 package smm.simpleMemo.config.security;
 
+import com.fasterxml.jackson.core.json.JsonWriteFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import smm.simpleMemo.config.handler.AuthDeniedHandler;
 import smm.simpleMemo.service.UserDetailService;
 import org.springframework.context.annotation.Bean;
@@ -62,38 +65,27 @@ public class SecurityConfig  {
                 .antMatchers("/css/**");
     }
 
-    @Bean
-    public LoginFailHandler loginFailHandler() {
-        return new LoginFailHandler();
-    }
-
-    @Bean
-    public LoginSuccessHandler loginSuccessHandler() {
-        return new LoginSuccessHandler();
-    }
-
-
     public AuthenticationManager authenticationManager() throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
+    public ObjectMapper objectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.getFactory().configure(JsonWriteFeature.ESCAPE_NON_ASCII.mappedFeature(), true);
+        objectMapper.registerModule(new JavaTimeModule());
+
+        return objectMapper;
+    }
+
     public JsonLoginFilter jsonLoginFilter(AuthenticationManager authenticationManager) {
-        JsonLoginFilter jsonLoginFilter = new JsonLoginFilter();
+        ObjectMapper objectMapper = objectMapper();
+
+        JsonLoginFilter jsonLoginFilter = new JsonLoginFilter(objectMapper);
         jsonLoginFilter.setAuthenticationManager(authenticationManager);
-        jsonLoginFilter.setAuthenticationFailureHandler(loginFailHandler());
-        jsonLoginFilter.setAuthenticationSuccessHandler(loginSuccessHandler());
+        jsonLoginFilter.setAuthenticationFailureHandler(new LoginFailHandler(objectMapper));
+        jsonLoginFilter.setAuthenticationSuccessHandler(new LoginSuccessHandler(objectMapper));
 
         return jsonLoginFilter;
     }
 
 }
-
-/*
-                .and()
-                    .formLogin()
-                    .loginPage("/login")
-                    .loginProcessingUrl("/loginProc")
-                    .usernameParameter("email")
-                    .passwordParameter("pw")
-                    .defaultSuccessUrl("/", true)
-                    .permitAll()*/

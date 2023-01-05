@@ -19,13 +19,13 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 public class JsonLoginFilter extends AbstractAuthenticationProcessingFilter {
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private ObjectMapper objectMapper;
     private static final AntPathRequestMatcher DEFAULT_ANT_PATH_REQUEST_MATCHER = new AntPathRequestMatcher("/loginProc",
             "POST");
 
-    @Autowired
-    public JsonLoginFilter() {
+    public JsonLoginFilter(ObjectMapper objectMapper) {
         super(DEFAULT_ANT_PATH_REQUEST_MATCHER);
+        this.objectMapper = objectMapper;
     }
 
     @Override
