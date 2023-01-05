@@ -1,11 +1,3 @@
-class MemoAPIError extends Error {
-    constructor(message, httpStatus) {
-        super(message);
-        this.name = "MemoAPIError";
-        this.httpStatus = httpStatus;
-    }
-}
-
 /**
  * promise json 형태로 반환
  */
@@ -25,7 +17,7 @@ function httpStatusHandler(res) {
                 resolve(res.data);
                 break;
             case 404:
-                reject(new MemoAPIError(res.message, res.httpStatus))
+                reject(new Error(res.message))
                 break;
         }
     });
