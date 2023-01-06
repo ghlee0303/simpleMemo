@@ -1,7 +1,5 @@
 package smm.simpleMemo.response;
 
-import smm.simpleMemo.dto.BasicDto;
-
 import java.time.LocalDateTime;
 
 public class ErrorResult {

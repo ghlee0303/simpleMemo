@@ -29,7 +29,6 @@ public class UserController {
     @PostMapping("join")
     public String postJoinMember(UserDto userDto, Model model) {
         if (userService.join(userDto)) {
-
             return "redirect:/join";
         }
 

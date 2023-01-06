@@ -38,9 +38,6 @@ public class Memo extends BaseEntity {
     /**
      * 새 메모 작성
      * mod_date(변경날짜)의 경우 새 메모 작성 시에도 동일하게 변경 됨
-     * @param writer
-     * @param title
-     * @param mod_date
      */
     public Memo(User writer, String title, LocalDateTime mod_date) {
         this.writer = writer;
