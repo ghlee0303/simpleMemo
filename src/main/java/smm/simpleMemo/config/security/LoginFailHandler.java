@@ -12,14 +12,12 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import smm.simpleMemo.response.ErrorResult;
+import smm.simpleMemo.response.ResponseMemo;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.Map;
 
 public class LoginFailHandler implements AuthenticationFailureHandler {
     private ObjectMapper objectMapper;
@@ -41,8 +39,9 @@ public class LoginFailHandler implements AuthenticationFailureHandler {
 
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        ResponseMemo<ErrorResult> responseMemo = new ResponseMemo<>(HttpStatus.UNAUTHORIZED.value(), errorResult);
 
-        objectMapper.writeValue(response.getWriter(), errorResult);
+        objectMapper.writeValue(response.getWriter(), responseMemo);
     }
 }
 
