@@ -29,15 +29,4 @@ public class ModelMapperTest {
 
     }
 
-    @Test
-    void 테스트2() {
-        Memo memo = new Memo();
-        memo.setTitle("제목1");
-        memo.setText("내용1");
-
-        MemoDto memoDto = modelMapper.map(memo, MemoDto.class);
-        System.out.println("제목 : " + memoDto.getTitle());
-        System.out.println("내용 : " + memoDto.getText());
-
-    }
 }
