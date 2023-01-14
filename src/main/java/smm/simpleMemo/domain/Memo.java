@@ -77,8 +77,9 @@ public class Memo extends BaseEntity {
         this.mod_date = mod_date;
     }
 
-    public void updateMemo(String title, String text) {
+    public void updateMemo(String title, String text, LocalDateTime mod_date) {
         this.title = title;
         this.text = text;
+        this.mod_date = mod_date;
     }
 }

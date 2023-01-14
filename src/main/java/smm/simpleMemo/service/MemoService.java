@@ -56,9 +56,9 @@ public class MemoService {
         TempMemoDto tempMemoDto = tempMemoService.saveTempMemo(memo);
         memo.updateMemo(
                 memoDto.getTitle(),
-                memoDto.getText()
+                memoDto.getText(),
+                LocalDateTime.now()
         );
-        memo.setRead_date(LocalDateTime.now());
 
         return tempMemoDto;
     }
