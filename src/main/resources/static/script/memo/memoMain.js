@@ -2,9 +2,6 @@ import * as fetchHandler from 'fetchHandler';
 import * as sidebar from 'sidebar';
 
 let errorThrower = fetchHandler.fetchErrorThrow;
-let toJsonPromise = fetchHandler.toJsonPromise;
-let errorMessage = fetchHandler.errorMessage;
-let httpStatusHandler = fetchHandler.httpStatusHandler;
 const memoId = window.location.pathname.split("/")[2];
 let changeTimerId;
 
@@ -12,7 +9,7 @@ window.onload = function () {
     mainMemoSetting()
         .then(() => sidebar.viewedMemoListSetting())
         .then(() => sidebar.tempMemoListSetting(memoId))
-        .catch(err => errorMessage(err));
+        .catch(err => fetchHandler.errorMessage(err));
     htmlEditorSetting();
     eventBinding();
 }
@@ -29,8 +26,8 @@ async function mainMemoSetting() {
     const serverUri = "/memo/data?id=" + memoId;
 
     await fetch(serverUri)
-        .then(res => toJsonPromise(res))
-        .then(res => httpStatusHandler(res))
+        .then(res => fetchHandler.toJsonPromise(res))
+        .then(res => fetchHandler.httpStatusHandler(res))
         .then(res =>  {
             insertMainMemoData(res);
             return res;
@@ -45,7 +42,7 @@ async function mainMemoSetting() {
  * 작성한 html 저장
  */
 function updateMemoHtml() {
-    const memoUrl = "/memo/save";
+    const memoUrl = "/memo/update";
     const memoTitle = document.querySelector("#memoTitle").value;
     const memoText = document.querySelector("#htmlEditor").value;
 
@@ -67,10 +64,8 @@ function updateMemoHtml() {
     }
 
     fetch(memoUrl, options)
-        .then(res => toJsonPromise(res))
-        .then(res => {
-            return httpStatusHandler(res).catch(errorThrower);
-        })
+        .then(res => fetchHandler.toJsonPromise(res))
+        .then(res => fetchHandler.httpStatusHandler(res))
         .then(tempMemo => {
             sidebar.insertSidebarMemoList(tempMemo, "tempMemoList");
             return tempMemo;
@@ -110,8 +105,8 @@ function imageUpload(file, editor) {
     }
 
     fetch(serverUri, options)
-        .then(res => toJsonPromise(res))
-        .then(res => httpStatusHandler(res))
+        .then(res => fetchHandler.toJsonPromise(res))
+        .then(res => fetchHandler.httpStatusHandler(res))
         .then(res => { htmlEditorImageUrlWrite(res); })
         .catch(errorThrower);
 }
