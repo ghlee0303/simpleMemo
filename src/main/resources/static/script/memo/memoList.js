@@ -43,6 +43,7 @@ function getYmd(d) {
         + "-" + ( (d.getMonth() + 1) > 9 ? (d.getMonth() + 1).toString() : "0" + (d.getMonth() + 1) )
         + "-" + ( d.getDate() > 9 ? d.getDate().toString() : "0" + d.getDate().toString() );
 }
+
 function getHm(t) {
     let h = ( t.getHours() > 9 ? t.getHours().toString() : "0" + t.getHours().toString() );
     let m = ( t.getMinutes() > 9 ? t.getMinutes().toString() : "0" + t.getMinutes().toString() );
