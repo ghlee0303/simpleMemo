@@ -51,6 +51,8 @@ public class SecurityConfig  {
                     .csrf().disable()
                     .formLogin().disable()
                     .logout()
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/login")
                 .and()
                     .exceptionHandling().accessDeniedHandler(loginDeniedHandler)
                     .authenticationEntryPoint(entryPoint);
