@@ -2,10 +2,6 @@ import * as fetchHandler from 'fetchHandler';
 import * as sidebar from 'sidebar';
 
 const errorThrower = fetchHandler.fetchErrorThrow;
-const toJsonPromise = fetchHandler.toJsonPromise;
-const errorMessage = fetchHandler.errorMessage;
-const httpStatusHandler = fetchHandler.httpStatusHandler;
-
 const urlParams = new URLSearchParams(location.search);
 const page = urlParams.has('p') ? urlParams.get('p') : 1;
 const total = document.getElementById("total").innerText;
@@ -14,18 +10,20 @@ window.onload = function () {
     setPageIndex()
         .then(() => mainMemoListSetting())
         .then(() => sidebar.viewedMemoListSetting())
-        .catch(err => errorMessage(err));
+        .catch(err => {
+            console.log(err.res);
+        });
 }
 
 /**
  * 메모리스트 호출
  */
 async function mainMemoListSetting() {
-    const serverUri = "http://localhost:8080/memo/data/list?page=" + page;
+    const serverUri = "/memo/list?page=" + page;
 
     await fetch(serverUri)
-        .then(res => toJsonPromise(res))
-        .then(res => httpStatusHandler(res))
+        .then(res => fetchHandler.toJsonPromise(res))
+        .then(res => fetchHandler.httpStatusHandler(res))
         .then(memoList => memoListDateSetting(memoList))
         .then(memoList => {
             memoList.map((memoData, line) => {
@@ -120,7 +118,7 @@ function setPageIndex() {
             if (page == i) {
                 pageIndex.classList.add("active");
             }
-            pageIndex.href = "/memo/list?p=" + i;
+            pageIndex.href = "/memo/page?p=" + i;
             pageIndex.innerText = i;
             pageIndexBody.appendChild(pageIndex);
         }
@@ -131,5 +129,4 @@ function setPageIndex() {
 
 function listErrorHandler(error) {
     alert(error.message);
-    location.href = "/memo/list";
 }

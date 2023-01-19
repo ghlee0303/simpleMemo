@@ -1,6 +1,6 @@
 import * as fetchHandler from 'fetchHandler';
 
-let errorThrower = fetchHandler.fetchErrorThrow;
+const errorThrower = fetchHandler.fetchErrorThrow;
 /**
  * 열람한 메모리스트 호출
  */
@@ -23,7 +23,7 @@ async function viewedMemoListSetting() {
  * 이전 메모리스트 호출
  */
 async function tempMemoListSetting(memoId) {
-    const serverUri = "/memoTemp/data/list?id=" + memoId;
+    const serverUri = "/memoTemp/list?id=" + memoId;
 
     await fetch(serverUri)
         .then(res => fetchHandler.toJsonPromise(res))
@@ -59,7 +59,7 @@ function insertSidebarMemoList(memo, target) {
         case 'tempMemoList':
             newElement.addEventListener('click', function (clicked) {
                 let tempMemoId = clicked.target.getAttribute("value");
-                window.open('http://localhost:8080/memoTemp?id=' + tempMemoId, 'popup', 'width=800,height=600');
+                window.open('/memoTemp/' + tempMemoId, 'popup', 'width=800,height=600');
             });
             break;
     }

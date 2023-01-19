@@ -32,21 +32,6 @@ function httpStatusHandler(res) {
 }
 
 /**
- * 에러처리
- * 최종 promise에서 내부 promise 에러 발생 시에 맞는 처리
- */
-function errorMessage(error) {
-    switch (error.name) {
-        case "MemoAPIError":
-            alert(error.message);
-            location.href = "/";
-            break;
-        default:
-            console.log(error);
-    }
-}
-
-/**
  * promise 내부의 promise에서 에러 처리 시 사용함
  */
 function fetchErrorThrow(error) {
@@ -57,4 +42,4 @@ function httpsStatusClass(httpsStatus) {
     return Math.floor(httpsStatus/100);
 }
 
-export {toJsonPromise, httpStatusHandler, errorMessage, fetchErrorThrow};
+export {toJsonPromise, httpStatusHandler, fetchErrorThrow};

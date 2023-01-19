@@ -16,79 +16,13 @@
 <h1 id="title"></h1>
 <div id="text"></div>
 </body>
-<script>
-    const memoId = getParameterByName("id");
-    let errorThrower = throwErr;
-
-    window.onload = function () {
-        tempMemoSetting();
+<script type="importmap">
+  {
+    "imports": {
+      "fetchHandler": "/script/memo/module/fetchHandler.js?v=1.0"
     }
-    /**
-     * 이전 메모 호출
-     */
-    function tempMemoSetting() {
-        const serverUri = "http://localhost:8080/memoTemp/data?id=" + memoId;
-
-        fetch(serverUri)
-            .then(res => toJsonPromise(res))
-            .then(res => {
-                return httpStatusHandler(res).catch(errorThrower);
-            })
-            .then(res =>  {
-                console.log("여기는 왔는데");
-                insertTempMemoData(res);
-            })
-            .catch(err => errorMessage(err.message));
-    }
-
-    function insertTempMemoData(tempMemoData) {
-        console.log(tempMemoData);
-        document.getElementById("title").innerHTML = tempMemoData.memoTitle;
-        if (tempMemoData.memoText) {
-            document.getElementById("text").innerHTML = tempMemoData.memoText;
-        }
-    }
-
-    function getParameterByName(name) {
-        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-            results = regex.exec(location.search);
-        return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-    }
-
-    function toJsonPromise(res) {
-        return new Promise(function(resolve, reject) {
-            return resolve(res.json());
-        });
-    }
-
-    function httpStatusHandler(res) {
-        console.log(res);
-        return new Promise(function(resolve, reject) {
-            switch (res.httpStatus) {
-                case 200:
-                    resolve(res.data);
-                    break;
-                case 404:
-                    reject(new MemoAPIError(res.message, res.httpStatus))
-                    break;
-            }
-        });
-    }
-
-    function errorMessage(error) {
-        switch (error.name) {
-            case "MemoAPIError":
-                alert(error.message);
-                location.href = "/";
-                break;
-            default:
-                console.log(error);
-        }
-    }
-
-    function throwErr(error) {
-        throw error;
-    }
+  }
 </script>
+<script type="module" src="/script/memo/memoTemp.js?v=1.9"></script>
+
 </html>

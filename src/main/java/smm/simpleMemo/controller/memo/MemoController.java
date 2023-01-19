@@ -20,7 +20,7 @@ public class MemoController {
     }
 
     @GetMapping("/")
-    public String getIndex(Authentication authentication) {
+    public String getLatestMemo(Authentication authentication) {
         MemoDto memoDto = memoService.findLatest(((UserDetail) authentication.getPrincipal()).getUser().getId());
         if (memoDto.isEmpty()) {
             return "redirect:/memo/new";
@@ -36,7 +36,7 @@ public class MemoController {
         return "redirect:/memo/" + memoId;
     }
 
-    @GetMapping("memo/list")
+    @GetMapping("memo/page")
     public String getMemoList(Authentication authentication, Model model) {
         Integer memoTotalCount = memoService.findWrittenCount(((UserDetail) authentication.getPrincipal()).getUser().getId());
         model.addAttribute("total", memoTotalCount);
@@ -50,7 +50,7 @@ public class MemoController {
         return "memo/memoMain";
     }
 
-    @GetMapping("memoTemp")
+    @GetMapping("memoTemp/{id}")
     public String getMemoTemp(Model model) {
 
         return "memo/memoTemp";
