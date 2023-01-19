@@ -1,7 +1,7 @@
 import * as fetchHandler from 'fetchHandler';
 import * as sidebar from 'sidebar';
 
-let errorThrower = fetchHandler.fetchErrorThrow;
+const errorThrower = fetchHandler.fetchErrorThrow;
 const memoId = window.location.pathname.split("/")[2];
 let changeTimerId;
 
@@ -9,7 +9,9 @@ window.onload = function () {
     mainMemoSetting()
         .then(() => sidebar.viewedMemoListSetting())
         .then(() => sidebar.tempMemoListSetting(memoId))
-        .catch(err => fetchHandler.errorMessage(err));
+        .catch(err => {
+            console.log(err.res);
+        });
     htmlEditorSetting();
     eventBinding();
 }
@@ -19,11 +21,12 @@ function eventBinding() {
     document.querySelector("#deleteButton").addEventListener("click", deleteMemoHtml);
 }
 
+
 /**
  * 주 메모 호출
  */
 async function mainMemoSetting() {
-    const serverUri = "/memo/data?id=" + memoId;
+    const serverUri = "/memo?id=" + memoId;
 
     await fetch(serverUri)
         .then(res => fetchHandler.toJsonPromise(res))
@@ -42,7 +45,7 @@ async function mainMemoSetting() {
  * 작성한 html 저장
  */
 function updateMemoHtml() {
-    const memoUrl = "/memo/update";
+    const memoUrl = "/memo";
     const memoTitle = document.querySelector("#memoTitle").value;
     const memoText = document.querySelector("#htmlEditor").value;
 
@@ -52,7 +55,7 @@ function updateMemoHtml() {
     }
 
     const options = {
-        method: "POST",
+        method: "PUT",
         headers: {
             "Content-Type": "application/json",
         },
@@ -72,23 +75,30 @@ function updateMemoHtml() {
         })
         .then(res => { viewedMemoListSameTitleChange(memoTitle); })
         .then(res => { saveOkPopup(); })
-        .catch(err => errorMessage(err));
+        .catch(err => {
+            console.log(err);
+        });
 }
 
 /**
  * 작성한 html 삭제 (del_date 추가)
  */
 function deleteMemoHtml() {
-    const serverUri = "/memo/delete?id=" + memoId;
+    const serverUri = "/memo";
+    const options = {
+        method: "DELETE",
+        headers: {
+            "memoId": memoId
+        }
+    };
 
-    fetch(serverUri)
+    fetch(serverUri, options)
         .then(res => {
                 alert("성공적으로 삭제 되었습니다.");
                 location.href = "/memo/list";
             }
         );
 }
-// 삭제시 발생하는 에러 처리
 
 /**
  * 이미지 파일 업로드
@@ -108,7 +118,9 @@ function imageUpload(file, editor) {
         .then(res => fetchHandler.toJsonPromise(res))
         .then(res => fetchHandler.httpStatusHandler(res))
         .then(res => { htmlEditorImageUrlWrite(res); })
-        .catch(errorThrower);
+        .catch(err => {
+            console.log(err);
+        });
 }
 
 function insertMainMemoData(memoData) {

@@ -24,10 +24,9 @@ public class RestMemoController {
         this.tempMemoService = tempMemoService;
     }
 
-    // 저장 후 원래 Memo는 TempMemo가 되어 response
     @ResponseBody
-    @PostMapping("memo/update")
-    public ResponseMemo<TempMemoDto> postMemoUpdate(@Valid @RequestBody MemoDto memoDto, Authentication authentication) {
+    @PutMapping("memo")
+    public ResponseMemo<TempMemoDto> putMemoUpdate(@Valid @RequestBody MemoDto memoDto, Authentication authentication) {
         int userId = ((UserDetail) authentication.getPrincipal()).getUser().getId();
         TempMemoDto tempMemoDto = memoService.updateMemo(memoDto, userId);
 
@@ -35,8 +34,8 @@ public class RestMemoController {
     }
 
     @ResponseBody
-    @GetMapping("memo/delete")
-    public ResponseEntity<String> getMemoDelete(@RequestParam(value = "id") int memoId, Authentication authentication) {
+    @DeleteMapping("memo")
+    public ResponseEntity<String> deleteMemo(@RequestHeader("memoId") int memoId, Authentication authentication) {
         int userId = ((UserDetail) authentication.getPrincipal()).getUser().getId();
         memoService.deleteMemo(memoId, userId);
 
@@ -44,7 +43,7 @@ public class RestMemoController {
     }
 
     @ResponseBody
-    @GetMapping("memo/data")
+    @GetMapping("memo")
     public ResponseMemo<MemoDto> getMemoData(@RequestParam(value = "id") int memoId, Authentication authentication) {
         int userId = ((UserDetail) authentication.getPrincipal()).getUser().getId();
         MemoDto memoDto = memoService.findById(memoId, userId);
@@ -52,7 +51,7 @@ public class RestMemoController {
     }
 
     @ResponseBody
-    @GetMapping("memo/data/list")
+    @GetMapping("memo/list")
     public ResponseMemo<List<MemoDto>> getMemoList(Authentication authentication, @RequestParam(value = "page") int page) {
         page = page > 0 ? page-1 : 0;
         List<MemoDto> memoDtoList = memoService.findMemoPageList(
@@ -77,16 +76,16 @@ public class RestMemoController {
     }
 
     @ResponseBody
-    @GetMapping("memoTemp/data")
+    @GetMapping("memoTemp")
     public ResponseMemo<TempMemoDto> getMemoTempData(@RequestParam(value = "id") int tempMemoId) {
         TempMemoDto tempMemoDto = tempMemoService.findById(tempMemoId);
         return new ResponseMemo<>(tempMemoDto);
     }
 
     @ResponseBody
-    @GetMapping("memoTemp/data/list")
-    public ResponseMemo<List<TempMemoDto>> getMemoTempList(@RequestParam(value = "id") int memoId) {
-        List<TempMemoDto> tempMemoDtoList = tempMemoService.findByMemoId(memoId);
+    @GetMapping("memoTemp/list")
+    public ResponseMemo<List<TempMemoDto>> getMemoTempList(@RequestParam(value = "id") int tempMemoId) {
+        List<TempMemoDto> tempMemoDtoList = tempMemoService.findByMemoId(tempMemoId);
         return new ResponseMemo<>(tempMemoDtoList);
     }
 }
