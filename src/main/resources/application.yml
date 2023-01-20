@@ -19,6 +19,8 @@ server:
   session:
     tracking-modes: cookie
 
-
+  error:
+    whitelabel:
+      enabled=false:
 # org.hibernate.type: trace
 # 파라미터 바인딩 된 것 까지 볼 수 있음
