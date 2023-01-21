@@ -32,7 +32,7 @@ public class UserController {
             return "redirect:/join";
         }
 
-        return "redirect:/";
+        return "redirect:/login";
     }
 
     @GetMapping("/login")
