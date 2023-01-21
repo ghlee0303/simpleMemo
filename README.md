@@ -1,143 +1,72 @@
-# simpleMemo
+# Simple Memo
 
-Hi! I'm your first Markdown file in **StackEdit**. If you want to learn about StackEdit, you can read me. If you want to play with Markdown, you can edit me. Once you have finished with me, you can create new files by opening the **file explorer** on the left corner of the navigation bar.
+## 1. 프로젝트 개요
 
+- 프로젝트 명칭 : Simple Memo
+- 개발 기간 : 2022.11.10 ~ 2023.
+- 주요 기능 :
+    - 메모 작성 - CRUD 기능, 저장 후 이전에 작성한 메모는 이전 메모로 덧붙임
+    - 이전 메모 - 이전에 작성한 메모 조회
+    - 사용자 - Security 회원가입 및 로그인, 리멤버미, 유효성 검사 및 중복 검사
+- 개발 언어 : Java 11
+- 개발 환경 : SpringBoot, Spring Security, jpa(Spring Data JPA), QueryDsl
+- 데이터베이스 : MySQL
+- 형상관리 툴 : GitHub
+- 소개 : 간단한 메모를 작성할 수 있는 웹 페이지이다. index 페이지로 접속 시 가장 최근에 작성한 메모를 바로 이어서 작성 할 수 있으며, 저장 후에는 이전에 작성했던 내용을 조회 할 수있다. 
 
-# Files
+## 2. 요구사항
 
-StackEdit stores your files in your browser, which means all your files are automatically saved locally and are accessible **offline!**
+### 1. 회원 가입
 
-## Create files and folders
+-   #### 유효성 검사
+    - 이메일 형식 패턴 적용해 확인
+    - 한 개의 칸이라도 공백 혹은 빈칸이 있는지 확인하고 있다면, "OOO는 필수 입력 값입니다."의 메시지 보여주기
+    - 비밀번호는 최소 8~16자 이상이며, 영문 대 소문자, 숫자, 특수문자를 사용하게 하기
 
-The file explorer is accessible using the button in left corner of the navigation bar. You can create a new file by clicking the **New file** button in the file explorer. You can also create folders by clicking the **New folder** button.
+-   #### 중복확인
+    - 데이터베이스에 존재하는 이메일을 입력한 채 회원가입 버튼을 누른 경우 "이미 사용중인 이메일입니다." 의 메시지를 보여주기
+    - 모든 검사가 통과되었다면 로그인 페이지로 이동시키기
 
-## Switch to another file
+### 2. 로그인
 
-All your files and folders are presented as a tree in the file explorer. You can switch from one to another by clicking a file in the tree.
+-   #### 로그인을 하지 않은 경우 아래 페이지만 이용가능
 
-## Rename a file
+    - 회원가입 페이지
+    - 로그인 페이지
+    - 그 외 로그인을 하지 않거나 올바르지 않은 경로로 접속한 사용자가 로그인이 필요한 경로에 접속한 경우 로그인 페이지로 이동
+    - 로그인시 자동으로 리멤버 미 적용
 
-You can rename the current file by clicking the file name in the navigation bar or by clicking the **Rename** button in the file explorer.
+-   #### 로그인 검사 
+    - 아이디와 비밀번호가 일치하지 않을 시 "아이디 또는 비밀번호가 맞지 않습니다. "의 메시지를 출력
+    - 이외의 다른 에러 메시지 또한 처리
+    - 모든 검사가 통과되었다면 로그인 후 index 페이지로 이동
 
-## Delete a file
+### 3. 회원정보 수정
 
-You can delete the current file by clicking the **Remove** button in the file explorer. The file will be moved into the **Trash** folder and automatically deleted after 7 days of inactivity.
+- 회원정보 수정은 이메일, 비밀번호
+- 회원가입 유효성 검사와 동일
+- 수정 완료 시 수정 날짜 업데이트
 
-## Export a file
+### 4. 메모 리스트 조회
 
-You can export the current file by clicking **Export to disk** in the menu. You can choose to export the file as plain Markdown, as HTML using a Handlebars template or as a PDF.
+- 본인이 작성한 메모만 조회
+- 10개씩 끊어서 조회
+- 리스트 형식
 
+|#|제목|작성일|열람일|수정일|
+|-|----|-----|-----|-----|
+|1|제목|2023-01-15|05:03|02:23|
 
-# Synchronization
+### 5. 메모 작성
 
-Synchronization is one of the biggest features of StackEdit. It enables you to synchronize any file in your workspace with other files stored in your **Google Drive**, your **Dropbox** and your **GitHub** accounts. This allows you to keep writing on other devices, collaborate with people you share the file with, integrate easily into your workflow... The synchronization mechanism takes place every minute in the background, downloading, merging, and uploading file modifications.
-
-There are two types of synchronization and they can complement each other:
-
-- The workspace synchronization will sync all your files, folders and settings automatically. This will allow you to fetch your workspace on any other device.
-	> To start syncing your workspace, just sign in with Google in the menu.
-
-- The file synchronization will keep one file of the workspace synced with one or multiple files in **Google Drive**, **Dropbox** or **GitHub**.
-	> Before starting to sync files, you must link an account in the **Synchronize** sub-menu.
-
-## Open a file
-
-You can open a file from **Google Drive**, **Dropbox** or **GitHub** by opening the **Synchronize** sub-menu and clicking **Open from**. Once opened in the workspace, any modification in the file will be automatically synced.
-
-## Save a file
-
-You can save any file of the workspace to **Google Drive**, **Dropbox** or **GitHub** by opening the **Synchronize** sub-menu and clicking **Save on**. Even if a file in the workspace is already synced, you can save it to another location. StackEdit can sync one file with multiple locations and accounts.
-
-## Synchronize a file
-
-Once your file is linked to a synchronized location, StackEdit will periodically synchronize it by downloading/uploading any modification. A merge will be performed if necessary and conflicts will be resolved.
-
-If you just have modified your file and you want to force syncing, click the **Synchronize now** button in the navigation bar.
-
-> **Note:** The **Synchronize now** button is disabled if you have no file to synchronize.
-
-## Manage file synchronization
-
-Since one file can be synced with multiple locations, you can list and manage synchronized locations by clicking **File synchronization** in the **Synchronize** sub-menu. This allows you to list and remove synchronized locations that are linked to your file.
-
-
-# Publication
-
-Publishing in StackEdit makes it simple for you to publish online your files. Once you're happy with a file, you can publish it to different hosting platforms like **Blogger**, **Dropbox**, **Gist**, **GitHub**, **Google Drive**, **WordPress** and **Zendesk**. With [Handlebars templates](http://handlebarsjs.com/), you have full control over what you export.
-
-> Before starting to publish, you must link an account in the **Publish** sub-menu.
-
-## Publish a File
-
-You can publish your file by opening the **Publish** sub-menu and by clicking **Publish to**. For some locations, you can choose between the following formats:
-
-- Markdown: publish the Markdown text on a website that can interpret it (**GitHub** for instance),
-- HTML: publish the file converted to HTML via a Handlebars template (on a blog for example).
-
-## Update a publication
-
-After publishing, StackEdit keeps your file linked to that publication which makes it easy for you to re-publish it. Once you have modified your file and you want to update your publication, click on the **Publish now** button in the navigation bar.
-
-> **Note:** The **Publish now** button is disabled if your file has not been published yet.
-
-## Manage file publication
-
-Since one file can be published to multiple locations, you can list and manage publish locations by clicking **File publication** in the **Publish** sub-menu. This allows you to list and remove publication locations that are linked to your file.
-
-
-# Markdown extensions
-
-StackEdit extends the standard Markdown syntax by adding extra **Markdown extensions**, providing you with some nice features.
-
-> **ProTip:** You can disable any **Markdown extension** in the **File properties** dialog.
-
-
-## SmartyPants
-
-SmartyPants converts ASCII punctuation characters into "smart" typographic punctuation HTML entities. For example:
-
-|                |ASCII                          |HTML                         |
-|----------------|-------------------------------|-----------------------------|
-|Single backticks|`'Isn't this fun?'`            |'Isn't this fun?'            |
-|Quotes          |`"Isn't this fun?"`            |"Isn't this fun?"            |
-|Dashes          |`-- is en-dash, --- is em-dash`|-- is en-dash, --- is em-dash|
-
-
-## KaTeX
-
-You can render LaTeX mathematical expressions using [KaTeX](https://khan.github.io/KaTeX/):
-
-The *Gamma function* satisfying $\Gamma(n) = (n-1)!\quad\forall n\in\mathbb N$ is via the Euler integral
-
-$$
-\Gamma(z) = \int_0^\infty t^{z-1}e^{-t}dt\,.
-$$
-
-> You can find more information about **LaTeX** mathematical expressions [here](http://meta.math.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference).
-
-
-## UML diagrams
-
-You can render UML diagrams using [Mermaid](https://mermaidjs.github.io/). For example, this will produce a sequence diagram:
-
-```mermaid
-sequenceDiagram
-Alice ->> Bob: Hello Bob, how are you?
-Bob-->>John: How about you John?
-Bob--x Alice: I am good thanks!
-Bob-x John: I am good thanks!
-Note right of John: Bob thinks a long<br/>long time, so long<br/>that the text does<br/>not fit on a row.
-
-Bob-->Alice: Checking with John...
-Alice->John: Yes... John, how are you?
-```
-
-And this will produce a flow chart:
-
-```mermaid
-graph LR
-A[Square Rect] -- Link text --> B((Circle))
-A --> C(Round Rect)
-B --> D{Rhombus}
-C --> D
-```
+- index 페이지로 접속 시 가장 최근에 작성한 메모 페이지로 이동
+- 메모 작성 시 제목과 내용은 공백 혹은 빈칸으로 작성하지 않도록 하기
+- 입력 후 2.5초 동안 추가입력이 없을 시 자동 저장
+- 저장 후 "저장 완료" 출력
+- 이미지 업로드
+- HTML 에디터
+- 
+### 6. 사이드 바
+- 메모목록, 새 메모 작성, 열람한 메모, 이전 메모, 로그아웃 기능
+- 열람한 메모는 최근에 열람한 10개의 메모를 조회
+- 이전 메모는 이전 메모를 조회함
