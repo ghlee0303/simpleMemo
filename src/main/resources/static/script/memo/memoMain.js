@@ -21,7 +21,6 @@ function eventBinding() {
     document.querySelector("#deleteButton").addEventListener("click", deleteMemoHtml);
 }
 
-
 /**
  * 주 메모 호출
  */
