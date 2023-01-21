@@ -12,11 +12,9 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class MemoController {
     private final MemoService memoService;
-    private final UserDetailService userDetailService;
 
-    public MemoController(MemoService memoService, UserDetailService userDetailService) {
+    public MemoController(MemoService memoService) {
         this.memoService = memoService;
-        this.userDetailService = userDetailService;
     }
 
     @GetMapping("/")
@@ -55,5 +53,4 @@ public class MemoController {
 
         return "memo/memoTemp";
     }
-
 }
