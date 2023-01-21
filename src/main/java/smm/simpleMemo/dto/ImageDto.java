@@ -21,7 +21,7 @@ public class ImageDto {
 
     public ImageDto(String originFileName) {
         this.originFileName = originFileName;
-        this.basePath = "C:\\Users\\pjh13\\Desktop\\Fuck\\java-spring\\image\\data\\";
+        this.basePath = System.getProperty("user.dir") + "\\image\\data\\";
         this.ext = originFileName.substring(originFileName.lastIndexOf(".") + 1);
 
         String formatedNow = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));

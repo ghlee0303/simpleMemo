@@ -38,7 +38,7 @@ public class ImageController {
         HttpHeaders headers = new HttpHeaders();
 
         InputStream in = new BufferedInputStream(
-                new FileInputStream("C:\\Users\\pjh13\\Desktop\\Fuck\\java-spring\\image\\"+type+"\\"+name));
+                new FileInputStream(System.getProperty("user.dir") + "\\image\\"+type+"\\"+name));
         byte[] media = IOUtils.toByteArray(in);
         headers.setContentType(MediaType.IMAGE_PNG);
 
