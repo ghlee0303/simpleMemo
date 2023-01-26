@@ -16,7 +16,7 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QMemo extends EntityPathBase<Memo> {
 
-    private static final long serialVersionUID = 365923609L;
+    private static final long serialVersionUID = -89825699L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
@@ -60,7 +60,7 @@ public class QMemo extends EntityPathBase<Memo> {
 
     public QMemo(Class<? extends Memo> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.writer = inits.isInitialized("writer") ? new QUser(forProperty("writer"), inits.get("writer")) : null;
+        this.writer = inits.isInitialized("writer") ? new QUser(forProperty("writer")) : null;
     }
 
 }

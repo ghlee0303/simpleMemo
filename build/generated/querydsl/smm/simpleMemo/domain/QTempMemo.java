@@ -16,17 +16,23 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QTempMemo extends EntityPathBase<TempMemo> {
 
-    private static final long serialVersionUID = 838611853L;
+    private static final long serialVersionUID = 692044497L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
     public static final QTempMemo tempMemo = new QTempMemo("tempMemo");
 
+    public final QBaseEntity _super = new QBaseEntity(this);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> del_date = _super.del_date;
+
     public final NumberPath<Integer> id = createNumber("id", Integer.class);
 
     public final QMemo memo;
 
-    public final DateTimePath<java.time.LocalDateTime> reg_date = createDateTime("reg_date", java.time.LocalDateTime.class);
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> reg_date = _super.reg_date;
 
     public final StringPath text = createString("text");
 
