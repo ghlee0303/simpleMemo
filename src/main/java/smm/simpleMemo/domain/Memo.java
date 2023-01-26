@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 @Table(name = "memo")
 @DynamicInsert
 public class Memo extends BaseEntity {
-
     // 게시글번호
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
