@@ -3,7 +3,12 @@ package smm.simpleMemo.config.security;
 import com.fasterxml.jackson.core.json.JsonWriteFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import smm.simpleMemo.config.handler.AuthDeniedHandler;
+import smm.simpleMemo.repository.LoginTokenRespImpl;
 import smm.simpleMemo.service.UserDetailService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +30,7 @@ public class SecurityConfig  {
     private AuthenticationConfiguration authenticationConfiguration;
     private AccessDeniedHandler loginDeniedHandler;
     private AuthenticationEntryPoint entryPoint;
+    private String REMEMBER_ME_KEY = "rememberMeKey";
 
     public SecurityConfig(UserDetailService userDetailService,
                           AuthenticationConfiguration authenticationConfiguration,
@@ -46,6 +52,12 @@ public class SecurityConfig  {
                     .antMatchers("/login").permitAll()
                     .antMatchers("/join").permitAll()
                     .anyRequest().authenticated()
+                .and()
+                    .rememberMe()
+                    .alwaysRemember(true)
+                    .userDetailsService(userDetailService)
+                    .tokenRepository(persistentTokenRepository())
+                    .rememberMeServices(rememberMeServices())
                 .and()
                     .addFilterBefore(jsonLoginFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class)
                     .csrf().disable()
@@ -85,9 +97,24 @@ public class SecurityConfig  {
         JsonLoginFilter jsonLoginFilter = new JsonLoginFilter(objectMapper);
         jsonLoginFilter.setAuthenticationManager(authenticationManager);
         jsonLoginFilter.setAuthenticationFailureHandler(new LoginFailHandler(objectMapper));
-        jsonLoginFilter.setAuthenticationSuccessHandler(new LoginSuccessHandler(objectMapper));
+        jsonLoginFilter.setAuthenticationSuccessHandler(new LoginSuccessHandler(objectMapper, rememberMeServices()));
 
         return jsonLoginFilter;
     }
 
+    @Bean
+    public PersistentTokenBasedRememberMeServices rememberMeServices() {
+        PersistentTokenRepository tokenRepository = persistentTokenRepository();
+        PersistentTokenBasedRememberMeServices rememberMeServices = new
+                PersistentTokenBasedRememberMeServices(REMEMBER_ME_KEY, userDetailService, tokenRepository);
+        rememberMeServices.setParameter("remember-me");
+        rememberMeServices.setAlwaysRemember(true);
+
+        return rememberMeServices;
+    }
+
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository() {
+        return new LoginTokenRespImpl();
+    }
 }

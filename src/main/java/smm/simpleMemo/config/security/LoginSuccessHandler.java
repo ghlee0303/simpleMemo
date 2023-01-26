@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import smm.simpleMemo.response.ResponseMemo;
 
 import javax.servlet.FilterChain;
@@ -17,9 +19,11 @@ import java.io.IOException;
 
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     private ObjectMapper objectMapper;
+    private PersistentTokenBasedRememberMeServices persistentTokenBasedRememberMeServices;
 
-    public LoginSuccessHandler(ObjectMapper objectMapper) {
+    public LoginSuccessHandler(ObjectMapper objectMapper, PersistentTokenBasedRememberMeServices persistentTokenBasedRememberMeServices) {
         this.objectMapper = objectMapper;
+        this.persistentTokenBasedRememberMeServices = persistentTokenBasedRememberMeServices;
     }
 
     @Override
@@ -29,6 +33,13 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        // Remember-me
+        if (auth != null) {
+            persistentTokenBasedRememberMeServices.loginSuccess(request, response, auth);
+        }
+
         ResponseMemo<String> responseMemo = new ResponseMemo<>(authentication.getName());
         response.setStatus(HttpStatus.OK.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
