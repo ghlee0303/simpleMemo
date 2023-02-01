@@ -8,7 +8,6 @@
 <body>
 
 <div class="container">
-    <form action="/join" method="post">
         <div class="form-group">
             <label for="email">이메일</label>
             <input type="text" id="email" name="email" placeholder="이메일을 입력하세요">
@@ -17,10 +16,15 @@
             <label for="pwd">비밀번호</label>
             <input type="password" id="pwd" name="pwd" placeholder="비밀번호를 입력하세요">
         </div>
-        <button type="submit">등록</button>
-    </form>
+        <button id="joinBtn" type="submit">등록</button>
 </div> <!-- /container -->
 </body>
-<script th:inline="javascript">
+<script type="importmap">
+  {
+    "imports": {
+      "fetchHandler": "/script/memo/module/fetchHandler.js?v=1.0"
+    }
+  }
 </script>
+<script type="module" src="/script/user/join.js"></script>
 </html>
