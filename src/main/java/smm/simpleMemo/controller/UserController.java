@@ -1,6 +1,10 @@
 package smm.simpleMemo.controller;
 
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+import smm.simpleMemo.dto.MemoDto;
 import smm.simpleMemo.dto.UserDto;
+import smm.simpleMemo.response.ResponseMemo;
 import smm.simpleMemo.service.UserDetailService;
 import smm.simpleMemo.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -23,26 +27,25 @@ public class UserController {
 
     @GetMapping("join")    // http GET 방식의 GET, url
     public String getJoinMember(Model model) {
-        return "join"; // resources.templates 의 join.html 파일을 찾아감
+        return "user/join"; // resources.templates 의 join.html 파일을 찾아감
     }
 
+    @ResponseBody
     @PostMapping("join")
-    public String postJoinMember(UserDto userDto, Model model) {
-        if (userService.join(userDto)) {
-            return "redirect:/join";
-        }
+    public ResponseMemo<Boolean> postJoinMember(@RequestBody UserDto userDto) {
+        userService.join(userDto);
 
-        return "redirect:/login";
+        return new ResponseMemo<>(true);
     }
 
-    @GetMapping("/login")
+    @GetMapping("login")
     public String getLogin(Principal principal) {
-        return "login";
+        return "user/login";
     }
 
-    @GetMapping("/logout")
+    @GetMapping("logout")
     public String logout(HttpServletRequest request) {
 
-        return "redirect:/login";
+        return "redirect:user/login";
     }
  }
