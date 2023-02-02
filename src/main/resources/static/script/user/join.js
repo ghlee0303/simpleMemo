@@ -2,15 +2,12 @@ import * as fetchHandler from 'fetchHandler';
 
 window.onload = function () {
     eventBinding();
-    console.log("????");
 }
 
 function joinProcess() {
     const serverUri = "/join";
     const email = document.getElementById("email").value;
-    const pwd = document.getElementById("pwd").value;
-    console.log(email + " / " + pwd);
-    console.log("이 뭐꼬 왜안대노");
+    const pwd = document.getElementById("password").value;
     const options = {
         method : 'POST',
         cache : 'no-cache',

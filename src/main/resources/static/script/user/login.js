@@ -7,7 +7,7 @@ window.onload = function () {
 function loginProcess() {
     const serverUri = "/loginProc";
     const email = document.getElementById("email").value;
-    const pwd = document.getElementById("pwd").value;
+    const pwd = document.getElementById("password").value;
     const options = {
         method : 'POST',
         cache : 'no-cache',
